@@ -1,4 +1,4 @@
-import java.util.Scanner;
+git add .import java.util.Scanner;
 import java.util.Stack;
 public class UseCase5PalindromeCheckerApp {
     public static boolean isPalindrome(String input) {
