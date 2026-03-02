@@ -1,29 +1,35 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class UseCase8PalindromeCheckerApp {
+
     public static boolean isPalindrome(String str) {
         if (str == null) return false;
 
-        // FIX 1: Added missing comma in replaceAll
+        // 1. Clean the string: remove non-alphanumeric and lowercase
         String cleanStr = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        Deque<Character> deque = new ArrayDeque<>();
+        // 2. Load characters into a LinkedList
+        LinkedList<Character> list = new LinkedList<>();
         for (char c : cleanStr.toCharArray()) {
-            deque.addLast(c);
+            list.add(c);
         }
 
-        while (deque.size() > 1) {
-            // Characters are compared as primitives, so != works fine here
-            if (deque.removeFirst() != deque.removeLast()) {
-                return false;
+        // 3. Compare from both ends using ListIterators
+        // forward starts at the beginning; backward starts at the end
+        ListIterator<Character> forward = list.listIterator();
+        ListIterator<Character> backward = list.listIterator(list.size());
+
+        while (forward.nextIndex() < backward.previousIndex()) {
+            if (!forward.next().equals(backward.previous())) {
+                return false; // Mismatch found
             }
         }
-        return true;
+        return true; // All characters matched
     }
 
     public static void main(String[] args) {
-        // FIX 2: Added missing commas between array elements
+        // Corrected array initialization with proper commas
         String[] testStrings = {
                 "racecar",
                 "A man, a plan, a canal: Panama",
@@ -35,4 +41,4 @@ public class UseCase8PalindromeCheckerApp {
             System.out.println("\"" + s + "\" is palindrome: " + isPalindrome(s));
         }
     }
-}
+} 
